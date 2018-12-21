@@ -1,150 +1,115 @@
-# react-native-radio-button-group
+# React Native Radio Buttons Group
 
-> Simple and handy animated Radio group button for React Native in Android and IOS
+Simple and Best. An easy to use radio buttons for react native apps.
 
-[![npm](https://img.shields.io/npm/v/react-native-radio-button-group.svg)]()[![npm](https://img.shields.io/npm/l/react-native-radio-button-group.svg)]()
+![LICENSE MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg)
 
-[![NPM](https://nodei.co/npm/react-native-radio-button-group.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/react-native-radio-button-group/)
+[![NPM](https://nodei.co/npm/react-native-radio-buttons-group.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/react-native-radio-buttons-group/)
 
-Demo
----
+## Getting Started
 
-![Demo](./doc/vertical.png)![Demo](./doc/horizontal.png)
-.![Demo](./doc/label_view.png)![Demo](./doc/customized.png)
+###### Just a sneak peek (lots more can be done)
 
+![DEMO](./docs/images/react-native-radio-buttons-group.gif)
 
+### Installation
 
-## Installation
-
-in Cli
-
-```sh
-npm i react-native-radio-button-group --save
-
-            OR
-
-yarn add react-native-radio-button-group
 ```
-
-
-# Getting started
-
-```js
-import RadioGroup from 'react-native-radio-button-group';
-
-
-var radiogroup_options = [
-  {id: 0, label: 'Button1' },
-  {id: 1, label: 'Button2' },
-  {id: 2, label: 'Button3' },
-  {id: 3, label: 'Button4' },
-];
-
-var RadioGroupProject = React.createClass({
-  getInitialState: function() {
-    return {
-        selectedOption: null,
-    }
-  },
-  render: function() {
-    return (
-      <View>
-            <RadioGroup
-                  options={radiogroup_options}
-                  onChange={(option) => this.setState({selectedOption: option})}
-            />
-      </View>
-    );
-  }
-});
-```
-
-
-### Props
-Key | Type | Default | Value
---- | --- | --- | ---
-options | Array | [ ] | [Option](https://github.com/Abilashinamdar/react-native-radio-button-group#option)
-horizontal | Boolean | false | true / false
-activeButtonId | String / Number | _ | option id from the given options array
-onChange | function | _ | callback function
-circleStyle| Object | [CircleStyle](https://github.com/Abilashinamdar/react-native-radio-button-group#circlestyle)| [CircleStyle](https://github.com/Abilashinamdar/react-native-radio-button-group#circlestyle) with even more properties as required.
-
-#### Option
-```
-{
-    id: number | string,
-    label: string,
-    labelView: Element
-}
-```
-
-#### CircleStyle
-```
-{
-    width: 22,
-    height: 22,
-    borderColor: '#000',
-    borderWidth: 0.8,
-    marginRight: 10,
-    fillColor: '#279315'
-}
-
-Note : 'fillColor' used to change the background color of the circle on select.
+npm i react-native-radio-buttons-group --save
 ```
 
 ### Usage
-##### horizontal
-![Demo](./doc/horizontal.png)
-```js
-<RadioGroup
-      horizontal
-      options={radiogroup_options}
-/>
+
+###### App.js
 ```
+import React, { Component } from 'react';
+import { Text, View, StyleSheet } from 'react-native';
 
+import RadioGroup from 'react-native-radio-buttons-group';
 
-##### label as view
-![Demo](./doc/label_view.png)
-```js
-<RadioGroup
-      options={[
-        {
-              id: 0,
-              labelView: (
-                <Text style={{flex: 1}}>
-                  Button label as <Text style={{ color: 'red' }}>View</Text>
+export default class App extends Component {
+    state = {
+        data: [
+            {
+                label: 'Default value is same as label',
+            },
+            {
+                label: 'Value is different',
+                value: "I'm not same as label",
+            },
+            {
+                label: 'Color',
+                color: 'green',
+            },
+            {
+                disabled: true,
+                label: 'Disabled',
+            },
+            {
+                label: 'Size',
+                size: 32,
+            },
+        ],
+    };
+
+    // update state
+    onPress = data => this.setState({ data });
+
+    render() {
+        let selectedButton = this.state.data.find(e => e.selected == true);
+        selectedButton = selectedButton ? selectedButton.value : this.state.data[0].label;
+        return (
+            <View style={styles.container}>
+                <Text style={styles.valueText}>
+                    Value = {selectedButton}
                 </Text>
-              ),
-        },
-        { id: 1, label: 'Button2' },
-        { id: 2, label: 'Button3' },
-      ]}
-      activeButtonId={0}
+                <RadioGroup radioButtons={this.state.data} onPress={this.onPress} />
+            </View>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    valueText: {
+        fontSize: 18, 
+        marginBottom: 50,
+    },
+});
+```
+
+### Props
+Key | Type | Default | Value
+--- | --- | --- | --- 
+color | String | #444 | all css color formats
+disabled | Boolean | false | true / false
+label | String | You forgot to give label | any string
+layout | String | column | row / column
+selected | Boolean | false | true / false
+size | Number | 24 | positive numbers
+value | String | value assigned to label | any string
+
+###### Horizontal (side by side)
+```
+<RadioGroup 
+    radioButtons={this.state.data} 
+    onPress={this.onPress} 
+    flexDirection='row'
 />
 ```
 
-##### customized button
-![Demo](./doc/customized.png)
-```js
-<RadioGroup
-      horizontal
-      options={[
-        {
-              id: 0,
-              labelView: (
-                <Text>
-                  Button label as <Text style={{ color: 'red' }}>View</Text>
-                </Text>
-              ),
-        },
-        { id: 1, label: 'Button2' },
-        { id: 2, label: 'Button3' },
-      ]}
-      activeButtonId={0}
-      circleStyle={{ fillColor: 'pink', borderColor: 'cyan' }}
-/>
-```
+## Contributing
 
+Contribution always motivates. 
 
-# License
-MIT
+Incase of suggestions, Google my name "Thakur Ballary" and reach me on any social platforms.
+
+Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+
+## License
+
+This project is licensed under the [MIT License](https://github.com/ThakurBallary/react-native-radio-buttons-group/blob/master/LICENSE)
